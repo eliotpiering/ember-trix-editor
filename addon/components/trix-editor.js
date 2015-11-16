@@ -8,6 +8,10 @@ export default Ember.Component.extend({
 
   inputId: 'trix-editor-input-id',
 
+  getEditorContent: function() {
+    return $(`input#${this.get('inputId')}`).val();
+  },
+
   layout: layout,
 
   _listenToTrixEditorActions: Ember.on('didInsertElement', function () {
@@ -33,7 +37,7 @@ export default Ember.Component.extend({
 
     $trixEditor.on('trix-change', event => {
       if (this.attrs['trix-change']) {
-        this.attrs['trix-change'](event);
+        this.sendAction('trix-change', this.getEditorContent());
       }
     });
 
